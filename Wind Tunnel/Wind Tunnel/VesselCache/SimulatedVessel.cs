@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Smooth.Pools;
 using UnityEngine;
+using KerbalWindTunnel.ExtraMath;
 
 namespace KerbalWindTunnel.VesselCache
 {
@@ -133,7 +134,7 @@ namespace KerbalWindTunnel.VesselCache
         // TODO: Add ITorqueProvider and thrust effect on torque
         public override float GetPitchInput(Conditions conditions, float AoA, bool dryTorque = false, float guess = float.NaN)
         {
-            Accord.Math.Optimization.BrentSearch solver = new Accord.Math.Optimization.BrentSearch((input) => this.GetAeroTorque(conditions, AoA, (float)input, dryTorque).x, -0.3, 0.3, 0.0001);
+            BrentSearch solver = new BrentSearch((input) => this.GetAeroTorque(conditions, AoA, (float)input, dryTorque).x, -0.3, 0.3, 0.0001);
             if (solver.FindRoot())
                 return (float)solver.Solution;
             solver.LowerBound = -1;

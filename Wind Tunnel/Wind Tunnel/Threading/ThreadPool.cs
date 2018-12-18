@@ -268,18 +268,18 @@ namespace KerbalWindTunnel.Threading
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public class ConcurrentQueueEnumerator<T> : IEnumerator<T>
+        public class ConcurrentQueueEnumerator<S> : IEnumerator<S>
         {
-            private readonly ConcurrentQueue<T> queuer;
+            private readonly ConcurrentQueue<S> queuer;
 
-            public ConcurrentQueueEnumerator(ConcurrentQueue<T> queuer)
+            public ConcurrentQueueEnumerator(ConcurrentQueue<S> queuer)
             {
                 this.queuer = queuer;
             }
             private ConcurrentQueueEnumerator() { }
 
-            public T Current => current;
-            private T current;
+            public S Current => current;
+            private S current;
 
             object IEnumerator.Current => this.Current;
 

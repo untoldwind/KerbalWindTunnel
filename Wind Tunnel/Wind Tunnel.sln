@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27428.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wind Tunnel", "Wind Tunnel\Wind Tunnel.csproj", "{13572B17-7B9F-4252-B723-28DAC8796A91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graphing", "..\..\Unity Graphing\Graphing\Graphing.csproj", "{3C216395-20C9-4F59-813E-9326882D7092}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graphing", "..\..\Unity-Graphing\Graphing\Graphing.csproj", "{3C216395-20C9-4F59-813E-9326882D7092}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

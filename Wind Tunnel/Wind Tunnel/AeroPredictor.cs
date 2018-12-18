@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using KerbalWindTunnel.ExtraMath;
 
 namespace KerbalWindTunnel
 {
@@ -11,11 +12,11 @@ namespace KerbalWindTunnel
 
         public virtual float GetMaxAoA(Conditions conditions)
         {
-            return (float)Accord.Math.Optimization.BrentSearch.Maximize((aoa) => GetLiftForceMagnitude(conditions, (float)aoa, 1), 10 * Mathf.Deg2Rad, 60 * Mathf.Deg2Rad, 0.0001);
+            return (float)BrentSearch.Maximize((aoa) => GetLiftForceMagnitude(conditions, (float)aoa, 1), 10 * Mathf.Deg2Rad, 60 * Mathf.Deg2Rad, 0.0001);
         }
         public virtual float GetMaxAoA(Conditions conditions, out float lift, float guess = float.NaN)
         {
-            Accord.Math.Optimization.BrentSearch maximizer = new Accord.Math.Optimization.BrentSearch((aoa) => GetLiftForceMagnitude(conditions, (float)aoa, 1), 10 * Mathf.Deg2Rad, 60 * Mathf.Deg2Rad, 0.0001);
+            BrentSearch maximizer = new BrentSearch((aoa) => GetLiftForceMagnitude(conditions, (float)aoa, 1), 10 * Mathf.Deg2Rad, 60 * Mathf.Deg2Rad, 0.0001);
             if (float.IsNaN(guess) || float.IsInfinity(guess))
                 maximizer.Maximize();
             else
@@ -39,7 +40,7 @@ namespace KerbalWindTunnel
         }
         public virtual float GetMinAoA(Conditions conditions, float guess = float.NaN)
         {
-            Accord.Math.Optimization.BrentSearch minimizer = new Accord.Math.Optimization.BrentSearch((aoa) => GetLiftForceMagnitude(conditions, (float)aoa, 1), -60 * Mathf.Deg2Rad, -10 * Mathf.Deg2Rad, 0.0001);
+            BrentSearch minimizer = new BrentSearch((aoa) => GetLiftForceMagnitude(conditions, (float)aoa, 1), -60 * Mathf.Deg2Rad, -10 * Mathf.Deg2Rad, 0.0001);
             if (float.IsNaN(guess) || float.IsInfinity(guess))
                 minimizer.Maximize();
             else
@@ -71,12 +72,12 @@ namespace KerbalWindTunnel
             if (lockPitchInput && (float.IsNaN(pitchInputGuess) || float.IsInfinity(pitchInputGuess)))
                 pitchInputGuess = 0;
             Vector3 thrustForce = useThrust ? this.GetThrustForce(conditions) : Vector3.zero;
-            Accord.Math.Optimization.BrentSearch solver;
+            BrentSearch solver;
             if (lockPitchInput)
-                solver = new Accord.Math.Optimization.BrentSearch((aoa) => GetLiftForceMagnitude(this.GetLiftForce(conditions, (float)aoa, pitchInputGuess) + thrustForce, (float)aoa) - offsettingForce,
+                solver = new BrentSearch((aoa) => GetLiftForceMagnitude(this.GetLiftForce(conditions, (float)aoa, pitchInputGuess) + thrustForce, (float)aoa) - offsettingForce,
                     -10 * Mathf.Deg2Rad, 35 * Mathf.Deg2Rad, 0.0001);
             else
-                solver = new Accord.Math.Optimization.BrentSearch((aoa) => GetLiftForceMagnitude(this.GetLiftForce(conditions, (float)aoa, GetPitchInput(conditions, (float)aoa, dryTorque, pitchInputGuess)) + thrustForce, (float)aoa)
+                solver = new BrentSearch((aoa) => GetLiftForceMagnitude(this.GetLiftForce(conditions, (float)aoa, GetPitchInput(conditions, (float)aoa, dryTorque, pitchInputGuess)) + thrustForce, (float)aoa)
                 - offsettingForce, -10 * Mathf.Deg2Rad, 35 * Mathf.Deg2Rad, 0.0001);
 
             if (float.IsNaN(guess) || float.IsInfinity(guess))
